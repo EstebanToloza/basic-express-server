@@ -1,24 +1,23 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const users = [];
 
-router.get('/test', (req, res) => {
-  const person = {
-    name: "Esteban",
-    surname: "Toloza",
-    age: 27
-  }
-  res.json(person)
-});
-
-router.post('/test', (req, res) => {
+router.post('/user', (req, res) => {
   const {body} = req;
-  
-  res.json(body)
+
+  const {name} = body;
+
+  if (body && name) {
+    users.push(name);
+    return res.sendStatus(200);
+  } else {
+    return res.sendStatus(400);
+  }
+})
+
+router.get('/user', (req, res) => {
+  return res.json(users)
 })
 
 module.exports = router;
